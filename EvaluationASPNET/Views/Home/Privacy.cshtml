@@ -11,5 +11,5 @@
 <div class="text-left">
     <b>User Name:</b> @HttpContextAccessor?.HttpContext?.Session.GetString("SessionUserName")
     <br />
-    <b>User Id:</b> @HttpContextAccessor?.HttpContext?.Session.GetInt32("SessionRole")
+    <b>User Role:</b> @HttpContextAccessor?.HttpContext?.Session.GetString("SessionRole")
 </div>
