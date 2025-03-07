@@ -1,0 +1,80 @@
+﻿@model IEnumerable<EvaluationASPNET.Models.Ticket>
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+
+@if (@HttpContextAccessor?.HttpContext?.Session.GetString("SessionRole") == "Admin")
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assigned)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Resolved)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assigned)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Resolved)
+                </td>
+                <td>
+                    @if (@HttpContextAccessor?.HttpContext?.Session.GetString("SessionRole") == "Admin")
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                        <span>|</span>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        @if (item.Resolved != "Yes")
+                        {
+                            <span>|</span>
+                            <a asp-action="Resolved" asp-route-id="@item.Id">Resolved</a>
+                        }
+                    }
+                    else
+                    {
+                        @if (item.Resolved != "Yes")
+                        {
+                            <a asp-action="Resolved" asp-route-id="@item.Id">Resolved</a>
+                        }
+                    }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
